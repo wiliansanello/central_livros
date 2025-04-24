@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Livros Cadastrados</h2>
+<table border="1">
+    <tr><th>Título</th><th>Autor</th><th>Ano</th></tr>
+    {% for livro in livros %}
+    <tr>
+        <td>{{ livro.titulo }}</td>
+        <td>{{ livro.autor }}</td>
+        <td>{{ livro.ano }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('cadastrar_livro') }}">Cadastrar Novo Livro</a>
+{% endblock %}
