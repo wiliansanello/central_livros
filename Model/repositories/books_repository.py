@@ -1,4 +1,5 @@
 from sqlalchemy.orm import joinedload
+from sqlalchemy import func
 from database.connection import DBConnectionHandler
 from Model.entities.book import Book
 from Model.entities.author import Author
@@ -17,9 +18,9 @@ class BooksRepository:
         with DBConnectionHandler() as db:
             data = db.session.query(Book)\
                 .join(Book.authors)\
+                .filter(func.lower(Author.name).like(f"%{author_name.lower()}%"))\
                 .options(joinedload(Book.authors))\
                 .options(joinedload(Book.genres))\
-                .filter_by(Author.name==author_name)\
                 .all()
         
         return data
@@ -27,6 +28,7 @@ class BooksRepository:
     def select_books_by_title(self, title):
         with DBConnectionHandler() as db:
             data = db.session.query(Book)\
+                .filter(func.lower(Book.title).like(f"%{title.lower()}%"))\
                 .options(joinedload(Book.authors))\
                 .options(joinedload(Book.genres))\
                 .filter_by(Book.title == title)\
@@ -62,12 +64,13 @@ class BooksRepository:
 
             db.session.add(new_book)
             db.session.commit()
+            db.session.refresh(new_book)
 
         return new_book
     
-    def update(self, id, new_title=None, new_edition=None, new_year=None):
+    def update(self, isbn, new_title=None, new_edition=None, new_year=None):
         with DBConnectionHandler() as db:
-            book = db.sesion.query(Book).filter(Book.id == id).first()
+            book = db.session.query(Book).filter(Book.isbn == isbn).first()
             if not book:
                 return None
         
@@ -78,15 +81,15 @@ class BooksRepository:
         if new_year:
             book.year = new_year
 
-            db.session.commit()
+        db.session.commit()
         return book
         
-    def delete_book(self, book_id):
+    def delete(self, isbn):
         with DBConnectionHandler() as db:
-            book = db.session.query(Book).filter(Book.id == book.id).first()
+            book = db.session.query(Book).filter(isbn == isbn).first()
             if not book:
-                return None
+                return False
             
             db.session.delete(book)
             db.session.commit()
-        return True
+            return True

@@ -36,7 +36,7 @@ def get_books_by_author(author_name):
         })    
     return jsonify(books_data)
 
-@books_bp.route("/title/<title>", methods="GET")
+@books_bp.route("/title/<title>", methods=["GET"])
 def get_books_by_title(title):
     books = repo.select_books_by_title(title)
     books_data = []
@@ -80,7 +80,7 @@ def update_book(isbn):
     new_edition = data.get("edition")
     new_year = data.get("year")
 
-    book = repo.update_book(isbn, new_title, new_edition, new_year)
+    book = repo.update(isbn, new_title, new_edition, new_year)
 
     if not book:
         return jsonify({"error":"Livro não encontrado"}), 404
@@ -91,8 +91,8 @@ def update_book(isbn):
     })
 
 @books_bp.route("/<int:book_isbn>", methods=["DELETE"])
-def delete_book(book_isbn):
-    result = repo.delete_book(book_isbn)
+def delete(book_isbn):
+    result = repo.delete(book_isbn)
 
     if not result:
         return jsonify({"error": "Livro não encontrado"}), 404
