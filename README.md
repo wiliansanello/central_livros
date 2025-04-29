@@ -1,7 +1,5 @@
 # Sistema de Gestão de Biblioteca
 
-Tecnologias utilizadas:
+Minicurso com Flask e SQLite.
 
-- Flask: Microframework para aplicações web, leve e ideal para projetos simples.
-- SQL Alchemy: ORM usada para abstrair classes,  em Python
-- SQLite: Banco de dados leve, ideal para sistemas com menor complexidade
+Criar funcionalidade que importe um JSON de alunos e só atualize quando houver mudanças
