@@ -7,3 +7,9 @@ class Student(Base):
     registration = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     student_class = Column(String)
+
+    def __repr__(self):
+        return f'[Matrícula: {self.registration}\n\
+        Nome: {self.name}\n\
+        Turma: {self.student_class}'
+        

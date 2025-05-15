@@ -81,6 +81,7 @@ CREATE TABLE loan (
     registration INTEGER      NOT NULL,
     isbn         INTEGER      NOT NULL,
     date         DATETIME     NOT NULL,
+    return_date  DATETIME,
     days_late    INT,
     value_fine   FLOAT (3, 2),
     FOREIGN KEY (
@@ -91,4 +92,10 @@ CREATE TABLE loan (
         isbn
     )
     REFERENCES book (isbn) 
+);
+
+CREATE TABLE inventory (
+    isbn INTEGER PRIMARY KEY NOT NULL,
+    total_quantity INTEGER NOT NULL DEFAULT 1,
+    available_quantity INTEGER NOT NULL DEFAULT 1
 );
