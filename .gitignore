@@ -1,3 +1,20 @@
-.idea
+# IDEs
+.idea/
+.vscode/
+
+# Ambientes virtuais
 .venv
-**/__pycache__
+venv/
+
+#Cache do Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+#Banco de dados e arquivos temporários
+*.db
+*.sqlite3
+
+#Outros
+.DS_Store
+tasks.md
